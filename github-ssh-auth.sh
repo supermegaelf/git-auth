@@ -3,6 +3,7 @@
 SSH_DIR="/root/.ssh"
 KEY_FILE="$SSH_DIR/github"
 CONFIG_FILE="$SSH_DIR/config"
+KNOWN_HOSTS="$SSH_DIR/known_hosts"
 
 echo "Creating directory $SSH_DIR..."
 mkdir -p "$SSH_DIR"
@@ -12,12 +13,11 @@ echo "Creating file for GitHub private key ($KEY_FILE)..."
 touch "$KEY_FILE"
 chmod 600 "$KEY_FILE"
 
-echo "Paste your GitHub private SSH key (press Ctrl+D to finish):"
-cat > "$KEY_FILE"
-echo "Key saved to $KEY_FILE."
+echo "Opening $KEY_FILE in nano. Paste your GitHub private SSH key, save (Ctrl+O, Enter), and exit (Ctrl+X)..."
+nano "$KEY_FILE"
 
 if [ ! -s "$KEY_FILE" ]; then
-  echo "Error: Key file is empty. Please paste the key again."
+  echo "Error: Key file is empty. Please paste the key and save the file."
   exit 1
 fi
 
@@ -29,9 +29,10 @@ fi
 echo "Starting SSH agent..."
 eval "$(ssh-agent -s)"
 echo "Adding key to SSH agent..."
-ssh-add "$KEY_FILE"
+ssh-add -v "$KEY_FILE"
 if [ $? -ne 0 ]; then
-  echo "Error: Failed to add key to SSH agent. Check key validity."
+  echo "Error: Failed to add key to SSH agent. The key may be invalid or corrupted."
+  echo "Consider generating a new key with: ssh-keygen -t ed25519 -C 'your_email@example.com' -f $KEY_FILE"
   exit 1
 fi
 
@@ -44,6 +45,10 @@ Host github.com
 EOF
 chmod 600 "$CONFIG_FILE"
 echo "SSH configuration created."
+
+echo "Adding GitHub host key to $KNOWN_HOSTS..."
+ssh-keyscan -H github.com >> "$KNOWN_HOSTS"
+chmod 600 "$KNOWN_HOSTS"
 
 echo "Testing connection to GitHub..."
 ssh -T git@github.com
