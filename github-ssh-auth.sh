@@ -46,6 +46,7 @@ echo
 
 if [ -f "$KEY_FILE" ]; then
     echo -e "${GREEN}${CHECK}${NC} GitHub SSH key already exists at ${BLUE}$KEY_FILE${NC}"
+    echo
     echo -e "${CYAN}${INFO}${NC} Using existing key file"
     
     echo -e "${GRAY}  ${ARROW}${NC} Verifying private key format"
@@ -57,7 +58,7 @@ if [ -f "$KEY_FILE" ]; then
     fi
     echo -e "${GREEN}${CHECK}${NC} Private key validated successfully!"
     echo
-    echo -e "${CYAN}${WARNING}${NC} SSH key already exists. Please select option:"
+    echo -e "${YELLOW}${WARNING} ${CYAN}SSH key already exists. Please select option:${NC}"
     echo
     echo -e "${BLUE}1.${NC} Keep existing key"
     echo -e "${GREEN}2.${NC} Generate new key"
@@ -67,14 +68,17 @@ if [ -f "$KEY_FILE" ]; then
     
     case $CHOICE in
         2)
-            echo -e "${YELLOW}${WARNING}${NC} Generating new key will overwrite the existing one"
-            echo -ne "${CYAN}Are you sure? (y/N): ${NC}"
+            echo
+            echo -ne "${YELLOW}Are you sure? (y/N): ${NC}"
+            echo
             read CONFIRM
             if [ "$CONFIRM" = "y" ] || [ "$CONFIRM" = "Y" ]; then
                 echo -e "${CYAN}${INFO}${NC} Removing existing key"
                 echo -e "${GRAY}  ${ARROW}${NC} Deleting old key files"
                 rm -f "$KEY_FILE" "$KEY_FILE.pub"
+                echo -e "${GREEN}${CHECK}${NC} Old key files deleted successfully!"
 
+                echo
                 echo -e "${CYAN}${INFO}${NC} Generating new SSH key"
                 echo -ne "${CYAN}  Enter your email for the SSH key: ${NC}"
                 read USER_EMAIL
@@ -96,26 +100,19 @@ if [ -f "$KEY_FILE" ]; then
                 chmod 644 "$KEY_FILE.pub"
                 echo -e "${GREEN}${CHECK}${NC} SSH key generated successfully!"
                 echo
-                echo -e "${WHITE}==============================================="
-                echo -e "IMPORTANT: Add this PUBLIC KEY to GitHub"
-                echo -e "===============================================${NC}"
-                echo
-                echo -e "${CYAN}${INFO}${NC} Go to: ${WHITE}https://github.com/settings/ssh/new${NC}"
-                echo -e "${CYAN}${INFO}${NC} Title: ${WHITE}$(hostname) - SSH Key${NC}"
-                echo
-                echo -e "${WHITE}PUBLIC KEY (copy everything below):${NC}"
-                echo -e "${BLUE}─────────────────────────────────────────────${NC}"
+                echo -e "${YELLOW}1. Copy PUBLIC KEY below:${NC}"
                 cat "$KEY_FILE.pub"
-                echo -e "${BLUE}─────────────────────────────────────────────${NC}"
-                echo
-                echo -ne "${CYAN}After adding the public key to GitHub, press Enter to continue...${NC}"
+                echo -e "${YELLOW}2. Save it:${NC} https://github.com/settings/ssh/new"
+                echo -ne "${YELLOW}3. Press Enter to continue...${NC}"
                 read
             else
                 echo -e "${CYAN}${INFO}${NC} Keeping existing key"
             fi
             ;;
         1|*)
+            echo
             echo -e "${CYAN}${INFO}${NC} Keeping existing key"
+            echo -e "${GREEN}${CHECK}${NC} Existing key will be used!"
             ;;
     esac
     
@@ -141,17 +138,12 @@ else
     chmod 644 "$KEY_FILE.pub"
     echo -e "${GREEN}${CHECK}${NC} SSH key generated successfully!"
     echo
-    echo -e "${WHITE}=========================${NC}"
-    echo -e "${WHITE}Add PUBLIC KEY to GitHub${NC}"
-    echo -e "${WHITE}=========================${NC}"
-    echo
-    echo -e "${CYAN}${INFO}${NC} Go to: ${WHITE}https://github.com/settings/ssh/new${NC}"
-    echo
-    echo -e "${YELLOW}PUBLIC KEY:${NC}"
+    echo -e "${YELLOW}1. Copy PUBLIC KEY below:${NC}"
     cat "$KEY_FILE.pub"
-    echo
-    echo -ne "${CYAN}After adding the public key to GitHub, press Enter to continue...${NC}"
+    echo -e "${YELLOW}2. Save it:${NC} https://github.com/settings/ssh/new"
+    echo -ne "${YELLOW}3. Press Enter to continue...${NC}"
     read
+    echo -ne "${NC}"
 fi
 
 echo
@@ -216,10 +208,9 @@ if [ $? -eq 1 ]; then
   echo -e "${WHITE}• View public key: cat ~/.ssh/github.pub${NC}"
   echo
 else
+  echo -e "${RED}${CROSS}${NC} Failed to connect to GitHub"
   echo
-  echo -e "${RED}${CROSS}${NC} Failed to connect to GitHub."
-  echo -e "${CYAN}${INFO}${NC} Ensure the public key is added at:"
-  echo -e "${WHITE}https://github.com/settings/keys${NC}"
+  echo -e "${YELLOW}${WARNING} Ensure the public key is added at:${NC} ${WHITE}https://github.com/settings/keys${NC}"
   echo
   exit 1
 fi
