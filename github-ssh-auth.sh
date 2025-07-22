@@ -67,6 +67,7 @@ echo -e "${CYAN}${INFO}${NC} Validating SSH private key"
 echo -e "${GRAY}  ${ARROW}${NC} Checking if key file is not empty"
 if [ ! -s "$KEY_FILE" ]; then
   echo -e "${RED}${CROSS}${NC} Key file is empty. Please paste the key and save the file."
+  echo
   exit 1
 fi
 
