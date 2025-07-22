@@ -74,7 +74,7 @@ if [ -f "$KEY_FILE" ]; then
                 echo -e "${CYAN}${INFO}${NC} Removing existing key"
                 echo -e "${GRAY}  ${ARROW}${NC} Deleting old key files"
                 rm -f "$KEY_FILE" "$KEY_FILE.pub"
-                # Generate new key
+
                 echo -e "${CYAN}${INFO}${NC} Generating new SSH key"
                 echo -ne "${CYAN}  Enter your email for the SSH key: ${NC}"
                 read USER_EMAIL
