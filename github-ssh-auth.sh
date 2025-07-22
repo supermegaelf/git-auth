@@ -70,9 +70,9 @@ if [ -f "$KEY_FILE" ]; then
         2)
             echo
             echo -ne "${YELLOW}Are you sure? (y/N): ${NC}"
-            echo
             read CONFIRM
             if [ "$CONFIRM" = "y" ] || [ "$CONFIRM" = "Y" ]; then
+                echo
                 echo -e "${CYAN}${INFO}${NC} Removing existing key"
                 echo -e "${GRAY}  ${ARROW}${NC} Deleting old key files"
                 rm -f "$KEY_FILE" "$KEY_FILE.pub"
