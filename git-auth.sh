@@ -48,7 +48,6 @@ if [ -f "$KEY_FILE" ]; then
     echo -e "${GREEN}${CHECK}${NC} GitHub SSH key already exists at ${BLUE}$KEY_FILE${NC}"
     echo
     echo -e "${CYAN}${INFO}${NC} Using existing key file"
-    
     echo -e "${GRAY}  ${ARROW}${NC} Verifying private key format"
     if ! grep -q "BEGIN.*PRIVATE KEY" "$KEY_FILE"; then
       echo -e "${RED}${CROSS}${NC} File does not contain a valid private key (expected 'BEGIN ... PRIVATE KEY')."
@@ -100,12 +99,13 @@ if [ -f "$KEY_FILE" ]; then
                 chmod 644 "$KEY_FILE.pub"
                 echo -e "${GREEN}${CHECK}${NC} SSH key generated successfully!"
                 echo
-                echo -e "${YELLOW}1. Copy PUBLIC KEY below:${NC}"
+                echo -e "${YELLOW}1. Follow link:${NC} https://github.com/settings/ssh/new"
+                echo -e "${YELLOW}2. Copy PUBLIC KEY below and insert it:${NC}"
                 cat "$KEY_FILE.pub"
-                echo -e "${YELLOW}2. Save it:${NC} https://github.com/settings/ssh/new"
                 echo -ne "${YELLOW}3. Press Enter to continue...${NC}"
                 read
             else
+                echo
                 echo -e "${CYAN}${INFO}${NC} Keeping existing key"
             fi
             ;;
@@ -138,9 +138,9 @@ else
     chmod 644 "$KEY_FILE.pub"
     echo -e "${GREEN}${CHECK}${NC} SSH key generated successfully!"
     echo
-    echo -e "${YELLOW}1. Copy PUBLIC KEY below:${NC}"
+    echo -e "${YELLOW}1. Follow link:${NC} https://github.com/settings/ssh/new"
+    echo -e "${YELLOW}2. Copy PUBLIC KEY below and insert it:${NC}"
     cat "$KEY_FILE.pub"
-    echo -e "${YELLOW}2. Save it:${NC} https://github.com/settings/ssh/new"
     echo -ne "${YELLOW}3. Press Enter to continue...${NC}"
     read
     echo -ne "${NC}"
