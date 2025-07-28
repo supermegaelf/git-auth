@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#===========================
-# GITHUB SSH AUTHENTICATION
-#===========================
+#====================
+# GITHUB SSH MANAGER
+#====================
 
 # Color constants
 readonly RED='\033[0;31m'
