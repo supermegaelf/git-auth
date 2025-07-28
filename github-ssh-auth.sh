@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#==============================
+#===========================
 # GITHUB SSH AUTHENTICATION
-#==============================
+#===========================
 
 # Color constants
 readonly RED='\033[0;31m'
@@ -28,9 +28,9 @@ KEY_FILE="$SSH_DIR/github"
 CONFIG_FILE="$SSH_DIR/config"
 KNOWN_HOSTS="$SSH_DIR/known_hosts"
 
-#=======================
+#======================
 # VALIDATION FUNCTIONS
-#=======================
+#======================
 
 validate_private_key() {
     if ! grep -q "BEGIN.*PRIVATE KEY" "$KEY_FILE"; then
@@ -42,9 +42,9 @@ validate_private_key() {
     fi
 }
 
-#======================
+#================
 # MAIN FUNCTIONS
-#======================
+#================
 
 setup_ssh_directory() {
     echo
@@ -184,7 +184,7 @@ display_public_key() {
 setup_ssh_key() {
     echo
     echo -e "${GREEN}SSH Key File Preparation${NC}"
-    echo -e "${GREEN}=========================${NC}"
+    echo -e "${GREEN}========================${NC}"
     echo
 
     if [ -f "$KEY_FILE" ]; then
