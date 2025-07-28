@@ -24,9 +24,9 @@ CONFIG_FILE="$SSH_DIR/config"
 KNOWN_HOSTS="$SSH_DIR/known_hosts"
 
 echo
-echo -e "${PURPLE}========================${NC}"
-echo -e "${WHITE}GITHUB SSH SETUP SCRIPT${NC}"
-echo -e "${PURPLE}========================${NC}"
+echo -e "${PURPLE}===================${NC}"
+echo -e "${WHITE}GITHUB SSH MANAGER${NC}"
+echo -e "${PURPLE}===================${NC}"
 
 echo
 echo -e "${GREEN}SSH Directory Setup${NC}"
@@ -147,11 +147,6 @@ else
 fi
 
 echo
-echo -e "${GREEN}──────────────────────────────────────────${NC}"
-echo -e "${GREEN}${CHECK}${NC} Key preparation completed successfully!"
-echo -e "${GREEN}──────────────────────────────────────────${NC}"
-echo
-
 echo -e "${GREEN}SSH Agent Configuration${NC}"
 echo -e "${GREEN}=======================${NC}"
 echo
@@ -199,9 +194,9 @@ ssh -T git@github.com > /dev/null 2>&1
 if [ $? -eq 1 ]; then
   echo -e "${GREEN}${CHECK}${NC} Connection to GitHub established!"
   echo
-  echo -e "${GREEN}===========================================${NC}"
-  echo -e "${GREEN}${CHECK}${NC} GitHub SSH setup completed successfully!"
-  echo -e "${GREEN}===========================================${NC}"
+  echo -e "${GREEN}=========================${NC}"
+  echo -e "${GREEN}${CHECK}${NC} Installation complete!"
+  echo -e "${GREEN}=========================${NC}"
   echo
   echo -e "${CYAN}Useful Commands:${NC}"
   echo -e "${WHITE}• Test connection: ssh -T git@github.com${NC}"
