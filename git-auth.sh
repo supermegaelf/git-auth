@@ -239,6 +239,18 @@ EOF
     echo -e "${GREEN}${CHECK}${NC} SSH configuration created successfully!"
 }
 
+configure_global_url_rewrite() {
+    echo
+    echo -e "${GREEN}Global URL Rewrite${NC}"
+    echo -e "${GREEN}==================${NC}"
+    echo
+
+    echo -e "${CYAN}${INFO}${NC} Configuring global HTTPS to SSH rewrite"
+    echo -e "${GRAY}  ${ARROW}${NC} Redirecting ${YELLOW}https://github.com/${NC} ${ARROW} ${GREEN}git@github.com:${NC}"
+    git config --global url."git@github.com:".insteadOf "https://github.com/"
+    echo -e "${GREEN}${CHECK}${NC} Global URL rewrite configured successfully!"
+}
+
 test_github_connection() {
     echo
     echo -e "${GREEN}Connection Test${NC}"
@@ -327,6 +339,7 @@ main() {
     setup_ssh_key
     configure_ssh_agent
     create_ssh_config
+    configure_global_url_rewrite
     test_github_connection
     convert_remotes_to_ssh
     echo
