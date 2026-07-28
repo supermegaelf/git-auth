@@ -279,11 +279,14 @@ convert_remotes_to_ssh() {
     echo -e "${GREEN}============================${NC}"
     echo
 
+    echo -e "${CYAN}${INFO}${NC} Checking repository remotes"
+    echo -e "${GRAY}  ${ARROW}${NC} Verifying git repository"
     if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
         echo -e "${CYAN}${INFO}${NC} Not inside a git repository, skipping remote conversion"
         return
     fi
 
+    echo -e "${GRAY}  ${ARROW}${NC} Scanning for HTTPS GitHub remotes"
     HTTPS_REMOTES=$(git remote -v | grep "https://github.com" | awk '{print $1}' | sort -u)
 
     if [ -z "$HTTPS_REMOTES" ]; then
