@@ -264,7 +264,6 @@ test_github_connection() {
     ssh -T git@github.com > /dev/null 2>&1
     if [ $? -eq 1 ]; then
         echo -e "${GREEN}${CHECK}${NC} Connection to GitHub established successfully!"
-        show_completion_message
     else
         echo -e "${RED}${CROSS}${NC} Failed to connect to GitHub"
         echo
@@ -342,6 +341,7 @@ main() {
     configure_global_url_rewrite
     test_github_connection
     convert_remotes_to_ssh
+    show_completion_message
     echo
 }
 
