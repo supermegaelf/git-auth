@@ -273,48 +273,6 @@ test_github_connection() {
     fi
 }
 
-convert_remotes_to_ssh() {
-    echo
-    echo -e "${GREEN}Repository Remote Conversion${NC}"
-    echo -e "${GREEN}============================${NC}"
-    echo
-
-    echo -e "${CYAN}${INFO}${NC} Checking repository remotes"
-    echo -e "${GRAY}  ${ARROW}${NC} Verifying git repository"
-    if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
-        echo -e "${CYAN}${INFO}${NC} Not inside a git repository, skipping remote conversion"
-        return
-    fi
-
-    echo -e "${GRAY}  ${ARROW}${NC} Scanning for HTTPS GitHub remotes"
-    HTTPS_REMOTES=$(git remote -v | grep "https://github.com" | awk '{print $1}' | sort -u)
-
-    if [ -z "$HTTPS_REMOTES" ]; then
-        echo -e "${GREEN}${CHECK}${NC} All remotes already use SSH format!"
-        return
-    fi
-
-    echo -e "${YELLOW}${WARNING} Found remotes using HTTPS format:${NC}"
-    git remote -v | grep "https://github.com"
-    echo
-    echo -ne "${CYAN}Convert these remotes to SSH format? (Y/n): ${NC}"
-    read CONVERT_CHOICE
-
-    if [ "$CONVERT_CHOICE" = "n" ] || [ "$CONVERT_CHOICE" = "N" ]; then
-        echo -e "${CYAN}${INFO}${NC} Skipping remote conversion"
-        return
-    fi
-
-    for REMOTE in $HTTPS_REMOTES; do
-        HTTPS_URL=$(git remote get-url "$REMOTE")
-        SSH_URL=$(echo "$HTTPS_URL" | sed 's|https://github.com/|git@github.com:|')
-        echo -e "${GRAY}  ${ARROW}${NC} Converting ${BLUE}$REMOTE${NC}: ${YELLOW}$HTTPS_URL${NC} ${ARROW} ${GREEN}$SSH_URL${NC}"
-        git remote set-url "$REMOTE" "$SSH_URL"
-    done
-
-    echo -e "${GREEN}${CHECK}${NC} Remotes converted to SSH format successfully!"
-}
-
 show_completion_message() {
     echo
     echo -e "${PURPLE}=========================${NC}"
@@ -343,7 +301,6 @@ main() {
     create_ssh_config
     configure_global_url_rewrite
     test_github_connection
-    convert_remotes_to_ssh
     show_completion_message
     echo
 }
